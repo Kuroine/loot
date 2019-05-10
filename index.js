@@ -1,151 +1,162 @@
-const config = require('./config.json');
+'use strict';
 
-module.exports = function Loot(dispatch) {
+const Vec3 = require('tera-vec3');
 
-    let auto = config.modes.auto || false,
-        autotrash = config.modes.trash || false,
-        enabled = config.modes.easy || true,
-        lootInterval = auto ? setInterval(tryLootAll, 250) : null,
-        location;
+const config = require('./config.js');
 
-    let blacklist = config.blacklist.concat(config.motes);
-    let trash = config.trash.concat(config.crystals.concat(config.strongboxes));
+module.exports = function AutoLootOld(mod) {
+    const cmd = mod.command || mod.require.command;
 
-    let cid = null;
-    let loot = {};
-    let inventory = null;
+    // config
+    let enable = config.enable,
+        enableAuto = config.enableAuto,
+        mode = "";
+    let location = new Vec3(0, 0, 0),
+        loop = null,
+        loot = {},
+        lootDelayTimeout = null;
 
-    let commands = {
-        auto: {
-            alias: ['auto', 'autoloot', 'toggle'],
-            run: function() {
-                auto = !auto;
-                message(`Autoloot mode toggled: ${auto}`);
-                if(auto){
-					lootInterval = setInterval(tryLootAll, 250);
-				}
-				else
-					clearInterval(lootInterval);
-            }
+    // command
+    cmd.add(['loot', 'ㅣㅐㅐㅅ'], {
+        // toggle
+        '$none': () => {
+            enable = !enable;
+            status();
         },
-        enable: {
-            alias: ['enable', 'on'],
-            run: function() {
-                enabled = true;
-                message('Easy looting is enabled.');
-            }
+        'auto': () => {
+            enableAuto = !enableAuto;
+            setup();
+            status();
         },
-        disable: {
-            alias: ['disable', 'off'],
-            run: function() {
-                enabled = false;
-                message('Easy looting is disabled.');
-            }
+        'status': () => {
+            status();
+            modestatus();
         },
-        autotrash: {
-            alias: ['autotrash', 'trash'],
-            run: function() {
-                autotrash = !autotrash;
-
-                message('Autotrash toggled: ' + (autotrash ? 'on' : 'off'));
-                garbageCollect();
-            }
-        }
-    }
-
-    dispatch.hook('S_LOGIN', 1, event => { ({cid} = event) })
-
-    dispatch.hook('C_CHAT', 1, (event) => {
-        if(!event.message.includes('!loot'))
-            return;
-
-        let command = event.message.replace(/<\/?[^<>]*>/gi, '').split(' ');
-
-        if(command.length > 1) {
-            for(let cmd in commands) {
-                if(commands[cmd].alias.indexOf(command[1].toString()) > -1)
-                    commands[cmd].run();
-            }
-        }
-
-        return false;
+        'bahaar': () => {
+            mode = "bahaar";
+            modestatus();
+        },
+        'veil': () => {
+            mode = "veil";
+            modestatus();
+        },
+        'default': () => {
+            mode = "default";
+            modestatus();
+        },
+        '$default': () => { send(`Invalid argument. usage : loot [auto|status]`); }
     });
 
-    dispatch.hook('S_LOAD_TOPO', 1, (event) => {
+    // mod.game
+    mod.game.on('enter_game', () => {
+        setup();
+    });
+
+    mod.game.me.on('change_zone', () => {
+        loot.length = 0;
         loot = {};
     });
 
-    dispatch.hook('C_PLAYER_LOCATION', 1, (event) => {
-        location = event;
+    mod.game.on('leave_game', () => {
+        clearTimeout(lootDelayTimeout);
+        clearInterval(loop);
+        lootDelayTimeout = null;
+        loop = null;
     });
 
-    dispatch.hook('S_SPAWN_DROPITEM', 1, (event) => {
-        if(!(blacklist.indexOf(event.item) > -1)) loot[event.id.toString()] = event;
-    }); 
-
-    dispatch.hook('C_TRY_LOOT_DROPITEM', 1, (event) => {
-        if(enabled) tryLootAll();      
-    });
-    
-    dispatch.hook('S_DESPAWN_DROPITEM', 1, (event) => {
-        if(event.id.toString() in loot) delete loot[event.id.toString()];    
+    // code
+    mod.hook('C_PLAYER_LOCATION', 5, (e) => {
+        location = e.loc;
     });
 
-    dispatch.hook('S_SYSTEM_MESSAGE_LOOT_ITEM', 1, event => {
-        if(event.message === '@41') return false;  // Block "That isn't yours." system message.
-        if(trash.includes(event.item)) {
-            garbageCollect();
+    mod.hook('S_LOAD_TOPO', 3, (event) => {
+		if (event.zone === 9044) {
+			mod.command.message('Type loot bahaar in proxy chat toggle mallet loot.');
         }
     });
 
-    function garbageCollect(){
-            dispatch.hook('S_INVEN', 5, event => {
-                if(autotrash) {
-                    if(event.first) inventory = []
-                    else if(!inventory) return
+    mod.hook('S_SPAWN_DROPITEM', 7, (e) => {
 
-                    for(let item of event.items) inventory.push(item)
-
-                    if(!event.more) {
-                        for(let item of inventory) {
-                            if(item.slot < 40) continue // First 40 slots are reserved for equipment, etc.
-                            else if(trash.includes(item.item)) deleteItem(item.slot, item.amount)
-                        }
-                        inventory = null
-                    }
+        switch(mode) {
+            case "bahaar":
+              // code block
+                if ((!(config.blacklist.includes(e.item))) && (!(config.bahaarlist.includes(e.item)))) {
+                    loot[e.gameId] = e;
                 }
-            })                
-    }
+              break;
+            case "veil":
+              // code block
+              if ((!(config.blacklist.includes(e.item))) && (!(config.veil.includes(e.item)))) {
+                loot[e.gameId] = e;
+            }
+              break;
+            case "default":
+            if (!(config.blacklist.includes(e.item))) {
+                loot[e.gameId] = e;
+              };
+              break;
+            default:
+              // code block
+              if (!(config.blacklist.includes(e.item))) {
+                loot[e.gameId] = e;
+              };
+          }
+    });
 
-
-    function deleteItem(slot, amount) {
-        dispatch.toServer('C_DEL_ITEM', 1, {
-            cid: cid,
-            slot: slot - 40,
-            amount
-        })
-    }
-
-    function tryLootAll() {
-        for(let item in loot) {
-            if(location)
-                if(Math.abs(loot[item].x - location.x1) < 120 && Math.abs(loot[item].y - location.y1) < 120)
-                    dispatch.toServer('C_TRY_LOOT_DROPITEM', 1, {
-                        id: loot[item].id
-                    });
+    mod.hook('S_DESPAWN_DROPITEM', 4, (e) => { 
+        if (e.gameId in loot) {
+            delete loot[e.gameId];
         }
+    });
+
+    mod.hook('S_SYSTEM_MESSAGE', 1, (e) => { if (e.message === '@41') return false });
+
+    mod.hook('C_TRY_LOOT_DROPITEM', 4, () => { lootAll(); });
+
+    // helper
+    function lootAll() {
+        if (!enable || mod.game.me.mounted) return;
+        clearTimeout(lootDelayTimeout);
+        lootDelayTimeout = null;
+        if (loot.size = 0) return;
+        for (let item in loot) {
+            if (location.dist3D(loot[item].loc) < 120) {
+                mod.send('C_TRY_LOOT_DROPITEM', 4, { gameId: loot[item].gameId });
+                break;
+            }
+        }
+        lootDelayTimeout = setTimeout(lootAll, config.lootDelay);
     }
 
-    function message(msg) {
-        dispatch.toClient('S_CHAT', 1, {
-            channel: 24,
-            authorID: 0,
-            unk1: 0,
-            gm: 0,
-            unk2: 0,
-            authorName: '',
-            message: ' (Autoloot) ' + msg
-        });
+    function setup() {
+        clearInterval(loop);
+        loop = null;
+        loop = enableAuto ? setInterval(lootAll, config.loopInterval) : null;
+    }
+
+    function send(msg) { cmd.message(': ' + [...arguments].join('\n\t - ')); }
+
+    function status() {
+        send(
+            `Ranged loot : ${enable ? 'En' : 'Dis'}abled`,
+            `Auto loot : ${enableAuto ? 'En' : 'Dis'}abled`);
+    }
+
+    function modestatus()
+    {
+        switch(mode) {
+            case "bahaar":
+              // code block
+              send('Loot mode: Bahaar');
+              break;
+            case "veil":
+              // code block
+              send('Loot mode: Veils');
+              break;
+            default:
+              // code block
+              send('Loot mode: Default');
+          }
     }
 
 }
