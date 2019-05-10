@@ -3,10 +3,7 @@
     "name": "loot",
     "options": {
         "niceName": "loot",
-        "guiName": "loot",
-        "settingsFile": "config.json",
-        "settingsMigrator": "settings_migrator.js",
-        "settingsVersion": 1
+        "guiName": "loot"
     },
     "author": "Nerd",
     "description": "YOINKED",
