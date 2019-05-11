@@ -147,13 +147,17 @@ module.exports = function AutoLootOld(mod) {
         switch(mode) {
             case "bahaar":
               // code block
-              send('Loot mode: Bahaar');
+              send('Loot mode: Bahaar(Mallets Ignored)');
               break;
             case "veil":
               // code block
-              send('Loot mode: Veils');
+              send('Loot mode: Veils Ignored');
               break;
-            default:
+            case "default":
+              // code block
+              send('Loot mode: Default');
+              break;
+              default:
               // code block
               send('Loot mode: Default');
           }

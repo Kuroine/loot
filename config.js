@@ -2,7 +2,7 @@ module.exports = {
     enable: true,
     enableAuto: true,
     lootDelay: 200,
-    loopInterval: 150,
+    loopInterval: 100,
 
     blacklist: [
         7214, // Scroll of Resurrection
