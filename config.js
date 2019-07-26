@@ -25,3 +25,4 @@ module.exports = {
     [
         98590 // veil
     ]
+}
