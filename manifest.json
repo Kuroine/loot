@@ -1,9 +1,9 @@
 {
     "files": {
         "README.md": "93770cd1e9ffeba9d023018235704621e10c0cb44eb14cc7ff0ec1e41b5b793b",
-        "index.js": "9ee4e40b915065ccf282036d28f2bf2f2ffedf28898be795bfda819a2ddffb42",
-        "module.json": "42988ecc7b6ab438e500dec251dbdc83858c530753c478fcab0d468d1acfbac5",
-        "settings_migrator.js": "d3eb0c4e4c7e613b38655904148d6e6082c75a6f12a012cbb595d8ad6220e02d"
+        "config.js": "668dc5aa93aac9f6d7878c194e8817d55d485f85b8332b96799384b0681a36fb",
+        "index.js": "96c58ca366b5b9bd4f4c13bc8131ee86a7e0e23f1b124fb83d329d1d2d883ad3",
+        "module.json": "42988ecc7b6ab438e500dec251dbdc83858c530753c478fcab0d468d1acfbac5"
     },
     "defs": {
         "C_PLAYER_LOCATION": 5,
