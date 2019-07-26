@@ -75,7 +75,7 @@ module.exports = function AutoLootOld(mod) {
         }
     });
 
-    mod.hook('S_SPAWN_DROPITEM', 7, (e) => {
+    mod.hook('S_SPAWN_DROPITEM', 8, (e) => {
 
         switch(mode) {
             case "bahaar":
