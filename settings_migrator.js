@@ -3,8 +3,8 @@
 const DefaultSettings = {
     enable: true,
     enableAuto: true,
-    lootDelay: 200,
-    loopInterval: 150,
+    lootDelay: 10,
+    loopInterval: 10,
 
     blacklist: [
         7214, // Scroll of Resurrection

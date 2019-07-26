@@ -2,7 +2,7 @@
 
 const Vec3 = require('tera-vec3');
 
-const config = require('./config.js');
+const config = require('./config.json');
 
 module.exports = function AutoLootOld(mod) {
     const cmd = mod.command || mod.require.command;
