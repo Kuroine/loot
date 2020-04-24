@@ -1,13 +1,8 @@
 {
     "disableAutoUpdate": false,
     "name": "loot",
-    "options": {
-        "niceName": "loot",
-        "guiName": "loot",
-        "settingsFile": "config.js"
-    },
-    "author": "Nerd",
-    "description": "YOINKED",
+    "author": "K",
+    "description": "Loot",
     "servers": ["https://raw.githubusercontent.com/Kuroine/loot/master/"],
     "supportUrl": "https://github.com/Kuroine/loot/issues"
 }

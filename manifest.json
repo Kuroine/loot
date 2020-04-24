@@ -1,15 +1,15 @@
 {
     "files": {
-        "README.md": "93770cd1e9ffeba9d023018235704621e10c0cb44eb14cc7ff0ec1e41b5b793b",
-        "config.js": "49de325f55f1f9e82697a8f49db5f2ab8e31874a47a1bc5405e9b9a8b5dc596f",
-        "index.js": "96c58ca366b5b9bd4f4c13bc8131ee86a7e0e23f1b124fb83d329d1d2d883ad3",
-        "module.json": "600ade69c8c97504547022237101dbe7ef0e31c35d3d9d190aaab8b6b3a27676"
+        "README.md": "070e56caa67c73ff1661b7b8746f4dd6122886e39518d283e5828f28e8316f92",
+        "config.js": "f4a5e0b2bd9115e9b9601fcb5a61f8996c6c465f8fb53260bfafbe25608cbedc",
+        "index.js": "5e68774cbd2d2b3fcb5251bffa4c9fca4158c4fad56ad2cd9ade46ff28f83022",
+        "module.json": "3a2f0f3cae4474e3550cdd2fdb02726a81e035a346d9b7b1955015265a41f9d5"
     },
     "defs": {
         "C_PLAYER_LOCATION": 5,
         "C_TRY_LOOT_DROPITEM": 4,
         "S_DESPAWN_DROPITEM": 4,
-        "S_LOAD_TOPO": 3,
+        "S_RETURN_TO_LOBBY": 1,
         "S_SPAWN_DROPITEM": 8,
         "S_SYSTEM_MESSAGE": 1
     }
