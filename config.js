@@ -73,6 +73,8 @@ module.exports = {
 		98672, // Refined Lepidoptera Crystal Powder (RING)
 
 		602173, //Kelsaik's Avatar Essence (Go IN Mini)
-		602175 //Kelsaik's Avatar Essence (Get Out Of Mini)
+		602175, //Kelsaik's Avatar Essence (Get Out Of Mini)
+		602172, //Kelsaik's Avatar Essence (Go IN Mini)
+		602174 //Kelsaik's Avatar Essence (Get Out Of Mini)
     ]
 }
