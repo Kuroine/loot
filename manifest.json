@@ -2,7 +2,7 @@
     "files": {
         "README.md": "070e56caa67c73ff1661b7b8746f4dd6122886e39518d283e5828f28e8316f92",
         "config.js": "4418885d4070c31d187ad1637da4a36be80877d8555daa6e8c9ce97096397348",
-        "index.js": "5e68774cbd2d2b3fcb5251bffa4c9fca4158c4fad56ad2cd9ade46ff28f83022",
+        "index.js": "b6c53e456389598371e402a6811b1f384acc5d05e32cf9c7550d538c815aa60f",
         "module.json": "3a2f0f3cae4474e3550cdd2fdb02726a81e035a346d9b7b1955015265a41f9d5"
     },
     "defs": {
@@ -10,7 +10,7 @@
         "C_TRY_LOOT_DROPITEM": 4,
         "S_DESPAWN_DROPITEM": 4,
         "S_RETURN_TO_LOBBY": 1,
-        "S_SPAWN_DROPITEM": 8,
+        "S_SPAWN_DROPITEM": 9,
         "S_SYSTEM_MESSAGE": 1
     }
 }
