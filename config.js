@@ -1,10 +1,10 @@
 module.exports = {
     enable: true,
     enableAuto: true,
-	interval: 30,
-	throttleMax: 45,
-	scanInterval: 60,
-	radius: 180,
+	interval: 5,
+	throttleMax: 15,
+	scanInterval: 20,
+	radius: 250,
 
     blacklist: [
 		7214, // Scroll of Resurrection
@@ -75,6 +75,11 @@ module.exports = {
 		602173, //Kelsaik's Avatar Essence (Go IN Mini)
 		602175, //Kelsaik's Avatar Essence (Get Out Of Mini)
 		602172, //Kelsaik's Avatar Essence (Go IN Mini)
-		602174 //Kelsaik's Avatar Essence (Get Out Of Mini)
+		602174, //Kelsaik's Avatar Essence (Get Out Of Mini)
+
+		//Kelsaik Toenails
+		98718,
+		98719,
+		98720
     ]
 }
